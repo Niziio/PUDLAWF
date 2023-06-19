@@ -2,40 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveBackground : MonoBehaviour {
+public class MoveBackground : MonoBehaviour 
+{
+	private float dura, empieza;
+	public float parallax;
+	public GameObject camara;
 
+	void Start () 
+	{
+		empieza = transform.position.x;
+		dura = GetComponent<SpriteRenderer>().bounds.size.x;
 
-
-	public float speed;
-	private float x;
-	public float PontoDeDestino;
-	public float PontoOriginal;
-
-
-
-
-	// Use this for initialization
-	void Start () {
-		//PontoOriginal = transform.position.x;
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () 
+	{
+		float temp = (camara.transform.position.x * (1 - parallax));
+		float dist = (camara.transform.position.x * parallax);
 
+		transform.position = new Vector3(empieza + dist, transform.position.y, transform.position.z);
 
-		x = transform.position.x;
-		x += speed * Time.deltaTime;
-		transform.position = new Vector3 (x, transform.position.y, transform.position.z);
-
-
-
-		if (x <= PontoDeDestino){
-
-			Debug.Log ("hhhh");
-			x = PontoOriginal;
-			transform.position = new Vector3 (x, transform.position.y, transform.position.z);
-		}
-
+		if (temp > empieza + dura)
+			empieza += dura;
+		else if (temp < empieza - dura) 
+			empieza -= dura;
 
 	}
 }
