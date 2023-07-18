@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class movenemy : MonoBehaviour
 {
-    public Transform[] waypoints;  // Array de los puntos a lo largo de los cuales el personaje se moverá
-    public float speed = 5f;  // Velocidad de movimiento del personaje
-    private int currentWaypointIndex;  // Índice del punto actual hacia el que el personaje se está moviendo
+    public Transform[] waypoints;
+    public Transform targetPoint;
+
+    public Transform originalPoint;
+    public float speed = 5f;
+
+    private int currentWaypointIndex;
+    private bool hasReachedTarget = false;
     [SerializeField] private GameObject kill;
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         currentWaypointIndex = Random.Range(0, waypoints.Length);
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        Move();
-    }
-
-    void Move()
-    {
-        Transform currentPoint = waypoints[currentWaypointIndex];
-
-        transform.position = Vector2.MoveTowards(transform.position, currentPoint.position, speed * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.1f)
-        {
-            currentWaypointIndex = Random.Range(0, waypoints.Length);
-        }
+        Rotacion();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +31,41 @@ public class movenemy : MonoBehaviour
         {
             Instantiate(kill, transform.position, Quaternion.identity);
             Destroy(gameObject);
+        }
+    }
+
+    
+
+    void Rotacion()
+    {
+        // Verificar si el NPC ha llegado al punto objetivo
+        if (!hasReachedTarget)
+        {
+            // Mover el NPC hacia el punto objetivo
+            transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, speed * Time.deltaTime);
+
+            // Verificar si el NPC ha alcanzado el punto objetivo
+            if (transform.position == targetPoint.position)
+            {
+                hasReachedTarget = true;
+
+                // Voltear el NPC utilizando FlipX del componente SpriteRenderer
+                spriteRenderer.flipX = true;
+            }
+        }
+        else
+        {
+            // Mover el NPC hacia el punto original
+            transform.position = Vector3.MoveTowards(transform.position, originalPoint.position, speed * Time.deltaTime);
+
+            // Verificar si el NPC ha regresado al punto original
+            if (transform.position == originalPoint.position)
+            {
+                hasReachedTarget = false;
+
+                // Restaurar la orientación original del NPC
+                spriteRenderer.flipX = false;
+            }
         }
     }
 }
