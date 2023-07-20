@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3986654551684978499}
   - component: {fileID: 4403376070579889476}
   - component: {fileID: 4773234663248299556}
+  - component: {fileID: 250420752417974839}
   m_Layer: 6
   m_Name: enemigo
   m_TagString: Untagged
@@ -129,5 +130,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  targetPoint: {fileID: 0}
+  originalPoint: {fileID: 0}
   speed: 5
-  kill: {fileID: 0}
+  kill: {fileID: 6239582677409266256, guid: 23c9d443302d1d145a45c56f56b3df9d, type: 3}
+--- !u!114 &250420752417974839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794485736596440999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de363cd3e75ea94a8845fdffd4dc4d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Respawn: 0
